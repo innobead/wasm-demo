@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wasi-demo
+spec:
+  selector:
+    matchLabels:
+      app: wasi-demo
+  template:
+    metadata:
+      labels:
+        app: wasi-demo
+    spec:
+      containers:
+        - name: wasi-demo
+          image: dkoacr.azurecr.io/wasi-demo:v0.0.0
+          command: []
+      tolerations:
+        - key: "kubernetes.io/arch"
+          operator: "Equal"
+          value: "wasm32-wasi"
+          effect: "NoExecute"
+        - key: "kubernetes.io/arch"
+          operator: "Equal"
+          value: "wasm32-wasi"
+          effect: "NoSchedule"
+      imagePullSecrets:
+        - name: demo-wasi-secret
