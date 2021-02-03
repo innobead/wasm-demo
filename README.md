@@ -205,3 +205,17 @@ in between the recent versions of emscripten and Rust.
 - https://bytecodealliance.org/
 - https://github.com/deislabs/krustlet/tree/master/docs
 - https://emscripten.org/index.html
+- https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-overview.md
+- https://github.com/WebAssembly/wasi-libc
+- https://github.com/WebAssembly/wasi-sdk
+- https://github.com/bytecodealliance/wasmtime
+- https://github.com/bytecodealliance/lucet
+- https://github.com/bytecodealliance/wasmtime/tree/main/cranelift (wasm bytecode -> machine code)
+- https://github.com/WebAssembly/binaryen (-> wasm bytecode)
+- https://v8.dev/blog/emscripten-standalone-wasm
+- https://wasmbyexample.dev/
+- https://surma.dev/things/c-to-webassembly/
+- https://github.com/denverdino/containerd-wasm
+- https://wascc.dev/
+- https://radu-matei.com/blog/towards-sockets-networking-wasi/
+- https://hacks.mozilla.org/2019/03/standardizing-wasi-a-webassembly-system-interface/
