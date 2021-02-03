@@ -6,6 +6,13 @@ This project is for understanding how to use WASM in different scenarios.
 - Run nginx.wasm on wasmer using `cranelift` to make necessary system calls supported in the final machine code, instead of using insufficient WASI API implementation
 - Have a demo flow to introduce how to use K8s and Krustlet (experimental) to manage WASI complaint WASM workload
 
+## What's WASM, WASI, in/outside browser, WASM runtime?
+
+- WASM in browsers, the API between WASM and browsers is Web APIs, but each browser can still have its specific APIs used by the vendor-locking wasm.
+- WASM outside browsers, the API between WASM and runtime is WASI API which is implemented in different runtime but wasi-libc and wasi-sdk provided by WebAssembly org.
+- WASM-WASI in browsers, the API between WASM and browser is WASI API, but the middle adapter (WASM polyfill JS library) is required to transfer the WASI API to Web APIs.   
+- WASM runtimes, they try to support WASI compliant + extra features for each specific needs.
+
 # Prerequisites
 
 ## Common
