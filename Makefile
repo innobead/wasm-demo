@@ -34,11 +34,11 @@ build-cpp-emscripten-js: ## Build wasm32-unknown-emscripten hello world 'non-sta
 	cd ./target/emscripten-wasm-js && emcc $(CURDIR)/emscripten/hello.cpp -O3 -o hello.html
 
 build-dev-container: ## Build dev container image
-	docker build -f Dockerfile.dev -t wasi-demo-dev:latest .
+	docker build -f Dockerfile.dev -t wasm-demo-dev:latest .
 
 run-nginx-emscripten: ## Run nginx.wasm built by emscripten on wasmer runtime
 	# https://syrusakbary.medium.com/running-nginx-with-webassembly-6353c02c08ac
-	docker run -p 8080:8080 -w /workspace/wasmer-nginx-example wasi-demo-dev:latest /root/.wasmer/bin/wasmer run nginx.wasm -- -p . -c nginx.conf
+	docker run -p 8080:8080 -w /workspace/wasmer-nginx-example wasm-demo-dev:latest /root/.wasmer/bin/wasmer run nginx.wasm -- -p . -c nginx.conf
 
 clean: ## Clean
 	cargo clean
