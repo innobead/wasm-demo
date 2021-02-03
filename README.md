@@ -104,38 +104,39 @@ docker run -p 8080:8080 -w /workspace/wasmer-nginx-example wasi-demo-dev:latest 
 
 # Demo 2 - Krustlet
 
-## Create a WASI application
+## Run the WASI application locally
+
+### 1. Create a WASI application
 
 ```console
-rustup target install wasm32-wasi
-cargo init <app>
+make build-rust-wasi-helloworld
+ls -al target/wasm32-wasi/debug/wasi-helloworld.wasm
 ```
+
+### 2. Run the WASI application on host
 
 ```console
-cd <app>
-cargo build --target wasm32-wasi
-ls -al target/wasm32-wasi
+wasetime target/wasm32-wasi/debug/wasi-helloworld.wasm
 ```
 
-
-## Run the WASI application on host
+### 3. Set up a container registry
 
 ```console
-wasetime target/wasm32-wasi/debug/<app>.wasm
+./scripts/manage-acr.sh create_acr
 ```
 
-## Package and Publish the WASI application to the OCI compatible registry
+### 4. Package and Publish the WASI application to the OCI compatible registry
 
 ```console
 az acr login --name dkoacr
-linuxwasm-to-oci push target/wasm32-wasi/debug/<app>.wasm <acr-name>.azurecr.io/<app>:<version>
+linuxwasm-to-oci push target/wasm32-wasi/debug/wasi-helloworld.wasm <acr-name>.azurecr.io/wasi-helloworld:v0.0.0
 ```
 
-## Pull the WASI application from the OCI compatible registry
+### 5. Pull the WASI application from the OCI compatible registry
 
 ```console
-linuxwasm-to-oci pull <acr-name>.azurecr.io/<app>:<version> -o <app>.wasm
-wasmtime <app>.wasm
+linuxwasm-to-oci pull <acr-name>.azurecr.io/wasi-helloworld:v0.0.0 -o wasi-helloworld.wasm
+wasmtime wasi-helloworld.wasm
 ```
 
 ## Run the WASI application on the K8s cluster (Krustlet)
@@ -170,17 +171,15 @@ kubectl get nodes
 
 ### 3. Set up a container registry
 
-```console
-./scripts/manage-acr.sh create_acr
-```
+The same as above
 
 ### 4. Create a WASI application
 
-[Ref](#create-a-wasi-application)
+The same as above
 
 ### 5. Package and Publish the WASI application to the OCI compatible registry
 
-[Ref](#package-and-publish-the-wasi-application-to-the-oci-compatible-registry)
+The same as above
 
 ### 6. Create the secret for pulling images from the container
 
