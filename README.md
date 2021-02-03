@@ -1,25 +1,88 @@
-> This project guides you how to run and orchestrate WASI workloads. 
+This project is for understanding how to use WASM in different scenarios.
+
+- Compile WASM bytecode by using different WASM target compilers
+- Walk through the WASM compilation cases via a self-explanatory Makefile
+- Have a demo flow to introduce how to use K8s and Krustlet (experimental) to manage WASI complaint WASM workload
 
 # Prerequisites
 
+## Common
+
+- rust toolchains
+
+```console
+curl https://sh.rustup.rs -sSf | sh
+```
+
+## Demo 1
+
+- Emscripten SDK 
+
+```console
+make install-emsdk
+```
+  
+- rust wasm32 architecture compile targes
+
+```console
+rustup target install wasm32-wasi
+rustup target install wasm32-unknown-unknown
+rustup target install wasm32-unknown-emscripten
+```
+
+## Demo 2
 - wasmtime
 - wasm-to-oci
 - krustlet
 - kind
-- rust toolchains
-- AZ CLI
-    - https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
 - kubectl
 - kustomize
-    
-You can use `huber`(https://github.com/innobead/huber) to install all prerequisites except rust and AZ CLI.
+- AZ CLI
+
+```console
+curl -L https://aka.ms/InstallAzureCli | bash
+```
+
+You can use [huber](https://github.com/innobead/huber) to install most dependencies except rust, azcli, and emsdk.
 
 ```console
 huber install wasmtime wasm-to-oci krustlet kind kubectl kustomize
-curl https://sh.rustup.rs -sSf | sh
 ```
 
-# Getting Started
+# Demo 1 - WASM, WASI
+
+## Compilation Scenarios
+```console
+❯ make
+build-cpp-emscripten-js             Build wasm32-unknown-emscripten hello world 'non-standalone' application vis emcc.
+build-cpp-emscripten-wasm           Build wasm32-unknown-emscripten hello world 'standalone' application vis emcc.
+build-dev-container                 Build dev container image
+build-rust-emscripten-helloworld    Build wasm32-unknown-emscripten hello world application. Only wasm + JS output supported in Rust
+build-rust-wasi-helloworld          Build wasm32-wasi hello world application
+build-rust-wasi-httpserver          Build wasm32-wasi http server application. This will be failed because system call not supported
+clean                               Clean
+install-emsdk                       Install Emscripten SDK
+run-nginx-emscripten                Run nginx.wasm built by emscripten on wasmer runtime
+```
+
+## Run nginx.wasm on wasmer
+
+By running the below command, you should be able to access http://localhost:8080
+
+```console
+❯ make run-nginx-emscripten
+# https://syrusakbary.medium.com/running-nginx-with-webassembly-6353c02c08ac
+docker run -p 8080:8080 -w /workspace/wasmer-nginx-example wasi-demo-dev:latest /root/.wasmer/bin/wasmer run nginx.wasm -- -p . -c nginx.conf
+2021/02/03 15:39:36 [notice] 1#0: using the "select" event method
+2021/02/03 15:39:36 [notice] 1#0: nginx/1.15.3
+2021/02/03 15:39:36 [notice] 1#0: built by clang 6.0.1  (emscripten 1.38.11 : 1.38.11)
+2021/02/03 15:39:36 [notice] 1#0: OS: Linux 5.3.18-lp152.60-default
+
+```
+
+![nginx-emscripten-wasmer](./docs/nginx-emscripten-wasmer.png)
+
+# Demo 2 - Krustlet
 
 ## Create a WASI application
 
@@ -133,3 +196,17 @@ kind delete cluster
 - https://wasmtime.dev/
 - https://bytecodealliance.org/
 - https://github.com/deislabs/krustlet/tree/master/docs
+
+# Tips
+
+## How to compile for wasm32-unknown-emscripten
+
+Please install emsdk first before doing rust compile. Don't install the latest emsdk, because there is some 
+[LLVM compatible issue](https://github.com/emscripten-core/emscripten/issues/12551#issuecomment-732648120) between the recent versions of emscripten and Rust.
+
+```
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+./emsdk install 1.39.20
+./emsdk active 1.39.20
+```

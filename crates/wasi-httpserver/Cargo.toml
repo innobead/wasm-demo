@@ -1,0 +1,9 @@
+[package]
+name = "wasi-httpserver"
+version = "0.1.0"
+authors = ["David Ko <dko@suse.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]

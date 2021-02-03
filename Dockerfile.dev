@@ -1,0 +1,11 @@
+FROM ubuntu
+WORKDIR /workspace
+COPY . /workspace
+
+RUN apt update -y; \
+    apt install -y git curl xz-utils; \
+    apt clean; \
+    curl https://get.wasmer.io -sSfL | sh; \
+    curl https://wasmtime.dev/install.sh -sSf | bash; \
+    echo PATH=\$PATH:\$HOME/.wasmer/bin/ >> ~/.bashrc; \
+    git clone https://github.com/wasmerio/wasmer-nginx-example.git
