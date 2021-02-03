@@ -188,25 +188,18 @@ kind delete cluster
 # stop kurstlet process
 ```
 
+# Notes
+
+## Emscripten SDK compatible issues with Rust
+
+Don't install the latest emsdk, because there is a [LLVM compatible issue](https://github.com/emscripten-core/emscripten/issues/12551#issuecomment-732648120) happening 
+in between the recent versions of emscripten and Rust.
+
 # References
 
 - https://webassembly.org/
-- https://wascc.dev/
 - https://wasi.dev/
 - https://wasmtime.dev/
 - https://bytecodealliance.org/
 - https://github.com/deislabs/krustlet/tree/master/docs
-
-# Tips
-
-## How to compile for wasm32-unknown-emscripten
-
-Please install emsdk first before doing rust compile. Don't install the latest emsdk, because there is some 
-[LLVM compatible issue](https://github.com/emscripten-core/emscripten/issues/12551#issuecomment-732648120) between the recent versions of emscripten and Rust.
-
-```
-git clone https://github.com/emscripten-core/emsdk.git
-cd emsdk
-./emsdk install 1.39.20
-./emsdk active 1.39.20
-```
+- https://emscripten.org/index.html
