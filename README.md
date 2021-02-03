@@ -2,8 +2,8 @@
 
 This project is for understanding how to use WASM in different scenarios.
 
-- Compile WASM bytecode by using different WASM target compilers
-- Walk through the WASM compilation cases via a self-explanatory Makefile
+- Walk through different WASM compiler cases via a self-explanatory Makefile to know what WASM or WASI is
+- Run nginx.wasm on wasmer which using `cranelift` to make necessary system calls supported in the final machine code, instead of using insufficient WASI API implementation
 - Have a demo flow to introduce how to use K8s and Krustlet (experimental) to manage WASI complaint WASM workload
 
 # Prerequisites
