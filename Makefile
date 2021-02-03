@@ -22,7 +22,7 @@ build-rust-wasi-httpserver: ## Build wasm32-wasi http server application. This w
 	cargo build --package wasi-httpserver --target wasm32-wasi
 
 build-rust-emscripten-helloworld: ## Build wasm32-unknown-emscripten hello world application. Only wasm + JS output supported in Rust
-	cargo build --package wasm-hellworld --target wasm32-unknown-emscripten
+	cargo build --package wasm-helloworld --target wasm32-unknown-emscripten
 	# RUSTFLAGS="-o wasm-httpserver.wasm -C opt-level=s" cargo build --package wasi-httpserver --target wasm32-unknown-emscripten
 
 build-cpp-emscripten-wasm: ## Build wasm32-unknown-emscripten hello world 'standalone' application vis emcc.
@@ -38,7 +38,7 @@ build-dev-container: ## Build dev container image
 
 run-nginx-emscripten: ## Run nginx.wasm built by emscripten on wasmer runtime
 	# https://syrusakbary.medium.com/running-nginx-with-webassembly-6353c02c08ac
-	docker run -p 8080:8080 -w /workspace/wasmer-nginx-example wasm-demo-dev:latest /root/.wasmer/bin/wasmer run nginx.wasm -- -p . -c nginx.conf
+	docker run -d -p 8080:8080 -w /workspace/wasmer-nginx-example wasm-demo-dev:latest /root/.wasmer/bin/wasmer run nginx.wasm -- -p . -c nginx.conf
 
 clean: ## Clean
 	cargo clean
