@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: wasi-demo
+  name: wasm-demo
 spec:
   containers:
-    - name: wasi-demo
-      image: dkoacr.azurecr.io/wasi-demo:v0.0.0
+    - name: wasm-demo
+      image: dkoacr.azurecr.io/wasm-demo:v0.0.0
       command: []
   tolerations:
     - key: "kubernetes.io/arch"

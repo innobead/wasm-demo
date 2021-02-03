@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wasi-demo
+  name: wasm-demo
 spec:
   selector:
     matchLabels:
-      app: wasi-demo
+      app: wasm-demo
   template:
     metadata:
       labels:
-        app: wasi-demo
+        app: wasm-demo
     spec:
       containers:
-        - name: wasi-demo
-          image: dkoacr.azurecr.io/wasi-demo:v0.0.0
+        - name: wasm-demo
+          image: dkoacr.azurecr.io/wasm-demo:v0.0.0
           command: []
       tolerations:
         - key: "kubernetes.io/arch"

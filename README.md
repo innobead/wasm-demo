@@ -116,7 +116,7 @@ ls -al target/wasm32-wasi/debug/wasi-helloworld.wasm
 ### 2. Run the WASI application on host
 
 ```console
-wasetime target/wasm32-wasi/debug/wasi-helloworld.wasm
+wasmtime target/wasm32-wasi/debug/wasi-helloworld.wasm
 ```
 
 ### 3. Set up a container registry
@@ -129,14 +129,14 @@ wasetime target/wasm32-wasi/debug/wasi-helloworld.wasm
 
 ```console
 az acr login --name dkoacr
-linuxwasm-to-oci push target/wasm32-wasi/debug/wasi-helloworld.wasm <acr-name>.azurecr.io/wasi-helloworld:v0.0.0
+linuxwasm-to-oci push target/wasm32-wasi/debug/wasi-helloworld.wasm dkoacr.azurecr.io/wasm-demo:v0.0.0
 ```
 
 ### 5. Pull the WASI application from the OCI compatible registry
 
 ```console
-linuxwasm-to-oci pull <acr-name>.azurecr.io/wasi-helloworld:v0.0.0 -o wasi-helloworld.wasm
-wasmtime wasi-helloworld.wasm
+linuxwasm-to-oci pull dkoacr.azurecr.io/wasm-demo:v0.0.0 -o wasm-demo.wasm
+wasmtime wasm-demo.wasm
 ```
 
 ## Run the WASI application on the K8s cluster (Krustlet)
@@ -188,23 +188,27 @@ The same as above
 ```
 
 ```console
-kustomize edit set image dkoacr.azurecr.io/wasi-demo:v0.0.0 <acr-name>.azurecr.io/<app>:<version>
+cd ./examples/krustlet
+kustomize edit set image dkoacr.azurecr.io/wasm-demo:v0.0.0 dkoacr.azurecr.io/wasm-demo:v0.0.0
+cd -
 ```
 
 ### 7. Create the WASI application deployment
 
 ```console
 kustomize build ./examples/krustlet | kubectl apply -f -
-kubectl logs -f wasi-demo
+kubectl logs -f wasm-demo
 ```
 ### 8. Clean up
 
 ```console
 kustomize build ./examples/krustlet | kubectl delete -f -
 ./scripts/manage-acr.sh delete_acr_access_secret delete_acr
-kind delete cluster
 
-# stop kurstlet process
+grep krustlet-wasi | xargs kill -9
+rm -rf ~/.krustlet
+
+kind delete cluster
 ```
 
 # Notes
