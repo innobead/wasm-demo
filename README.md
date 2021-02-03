@@ -8,7 +8,7 @@ This project is for understanding how to use WASM in different scenarios.
 
 ## Common
 
-- rust toolchains
+- Rust toolchains
 
 ```console
 curl https://sh.rustup.rs -sSf | sh
@@ -22,7 +22,7 @@ curl https://sh.rustup.rs -sSf | sh
 make install-emsdk
 ```
   
-- rust wasm32 architecture compile targes
+- Rust wasm32 compile toolchain targets
 
 ```console
 rustup target install wasm32-wasi
