@@ -1,3 +1,11 @@
+- [Introduction](#introduction)
+- [What's WASM, WASI, in/outside browser, WASM runtime?](#whats-wasm-wasi-inoutside-browser-wasm-runtime)
+- [Prerequisites](#prerequisites)
+- [Demo 1 - WASM, WASI](#demo-1---wasm-wasi)
+- [Demo 2 - Krustlet](#demo-2---krustlet)
+- [Notes](#notes)
+- [References](#references)
+
 # Introduction
 
 This project is for understanding how to use WASM in different scenarios.
@@ -6,21 +14,21 @@ This project is for understanding how to use WASM in different scenarios.
 - Run nginx.wasm on wasmer using `cranelift` to make necessary system calls supported in the final machine code, instead of using insufficient WASI API implementation
 - Have a demo flow to introduce how to use K8s and Krustlet (experimental) to manage WASI complaint WASM workload
 
-## What's WASM, WASI, in/outside browser, WASM runtime?
+# What's WASM, WASI, in/outside browser, WASM runtime?
 
-### WASM in browsers
+## WASM in browsers
 
 - The API between WASM and browsers is Web APIs, but each browser can still have its specific APIs used by the vendor-locking wasm.
 
-### WASM outside browsers
+## WASM outside browsers
 
 - The API between WASM and runtime is WASI API which is implemented in different runtime but wasi-libc and wasi-sdk provided by WebAssembly org.
 
-### WASI-WASM in browsers
+## WASI-WASM in browsers
 
-- The API between WASM and browser is WASI API, but the middle adapter (WASM polyfill JS library) is required to transfer the WASI API to Web APIs.   
+- The API between WASM and browser is WASI API, but the middle adapter (WASM polyfill JS library) is required to transfer the WASI API to Web APIs.
 
-### WASM runtimes
+## WASM runtimes
 
 - Runtime providers try to support WASI compliant + extra features for each specific needs.
 
@@ -38,12 +46,12 @@ curl https://sh.rustup.rs -sSf | sh
 
 ## Demo 1
 
-- Emscripten SDK 
+- Emscripten SDK
 
 ```console
 make install-emsdk
 ```
-  
+
 - Rust wasm32 compile toolchain targets
 
 ```console
@@ -53,6 +61,7 @@ rustup target install wasm32-unknown-emscripten
 ```
 
 ## Demo 2
+
 - wasmtime
 - wasm-to-oci
 - krustlet
@@ -88,8 +97,8 @@ install-emsdk                       Install Emscripten SDK
 run-nginx-emscripten                Run nginx.wasm built by emscripten on wasmer runtime
 ```
 
-Building the standalone WASM via emscripten in Rust compiler is unavailable, because for now its only supported for wasm + JS glue code only. 
-However, actually emscripten can support different types of output. When running `emcc --help`, you will find the info as below.
+Building the standalone WASM via emscripten in Rust compiler is unavailable, because for now its only supported for wasm + JS glue code only. However, actually emscripten can support different types
+of output. When running `emcc --help`, you will find the info as below.
 
 ```console
 "-o <target>"
@@ -157,7 +166,7 @@ wasmtime target/wasm32-wasi/debug/wasi-helloworld.wasm
 ./scripts/manage-acr.sh create_acr
 ```
 
-### 4. Package and Publish the WASI application to the OCI compatible registry
+### 4. Package and publish the WASI application to the OCI compatible registry
 
 ```console
 az acr login --name dkoacr
@@ -179,7 +188,7 @@ wasmtime wasm-demo.wasm
 kind create cluster
 ```
 
-### 2. Setup and Join a krustlet node
+### 2. Setup and Join a Krustlet node
 
 ```console
 # Prepare bootstrap token
@@ -209,7 +218,7 @@ The same as above
 
 The same as above
 
-### 5. Package and Publish the WASI application to the OCI compatible registry
+### 5. Package and publish the WASI application to the OCI compatible registry
 
 The same as above
 
@@ -231,6 +240,7 @@ cd -
 kustomize build ./examples/krustlet | kubectl apply -f -
 kubectl logs -f wasm-demo
 ```
+
 ### 8. Clean up
 
 ```console
@@ -247,8 +257,8 @@ kind delete cluster
 
 ## Emscripten SDK compatible issues with Rust
 
-Don't install the latest emsdk, because there is a [LLVM compatible issue](https://github.com/emscripten-core/emscripten/issues/12551#issuecomment-732648120) happening 
-in between the recent versions of emscripten and Rust.
+Don't install the latest emsdk, because there is a [LLVM compatible issue](https://github.com/emscripten-core/emscripten/issues/12551#issuecomment-732648120) happening in between the recent versions
+of emscripten and Rust.
 
 # References
 
