@@ -2,7 +2,7 @@
 
 This project is for understanding how to use WASM in different scenarios.
 
-- Walk through different WASM compiler cases via a self-explanatory Makefile to know what WASM or WASI is
+- Walk through different WASM compiling cases via a self-explanatory Makefile to know what WASM or WASI is
 - Run nginx.wasm on wasmer using `cranelift` to make necessary system calls supported in the final machine code, instead of using insufficient WASI API implementation
 - Have a demo flow to introduce how to use K8s and Krustlet (experimental) to manage WASI complaint WASM workload
 
@@ -25,6 +25,8 @@ This project is for understanding how to use WASM in different scenarios.
 - Runtime providers try to support WASI compliant + extra features for each specific needs.
 
 # Prerequisites
+
+For running the examples in this project, you need to install necessry prerequisites as below.
 
 ## Common
 
@@ -63,7 +65,7 @@ rustup target install wasm32-unknown-emscripten
 curl -L https://aka.ms/InstallAzureCli | bash
 ```
 
-You can use [huber](https://github.com/innobead/huber) to install most dependencies except rust, azcli, and emsdk.
+Except using the package manager on the host, you can also download [huber](https://github.com/innobead/huber) to install most dependencies excluding rust, azcli, and emsdk.
 
 ```console
 huber install wasmtime wasm-to-oci krustlet kind kubectl kustomize
@@ -71,9 +73,10 @@ huber install wasmtime wasm-to-oci krustlet kind kubectl kustomize
 
 # Demo 1 - WASM, WASI
 
-## Compilation Scenarios
+## Different WASm compiling scenarios
+
 ```console
-❯ make
+❯ make help
 build-cpp-emscripten-js             Build wasm32-unknown-emscripten hello world 'non-standalone' application vis emcc.
 build-cpp-emscripten-wasm           Build wasm32-unknown-emscripten hello world 'standalone' application vis emcc.
 build-dev-container                 Build dev container image
@@ -83,6 +86,35 @@ build-rust-wasi-httpserver          Build wasm32-wasi http server application. T
 clean                               Clean
 install-emsdk                       Install Emscripten SDK
 run-nginx-emscripten                Run nginx.wasm built by emscripten on wasmer runtime
+```
+
+Building the standalone WASM via emscripten in Rust compiler is unavailable, because for now its only supported for wasm + JS glue code only. 
+However, actually emscripten can support different types of output. When running `emcc --help`, you will find the info as below.
+
+```console
+"-o <target>"
+   The "target" file name extension defines the output type to be
+   generated:
+
+      * <name> **.js** : JavaScript (+ separate **<name>.wasm** file
+        if emitting WebAssembly). (default)
+
+      * <name> **.mjs** : ES6 JavaScript module (+ separate
+        **<name>.wasm** file if emitting WebAssembly).
+
+      * <name> **.html** : HTML + separate JavaScript file
+        (**<name>.js**; + separate **<name>.wasm** file if emitting
+        WebAssembly).
+
+      * <name> **.bc** : LLVM bitcode.
+
+      * <name> **.o** : WebAssembly object file (unless fastcomp or
+        -flto is used in which case it will be in LLVM bitcode
+        format).
+
+      * <name> **.wasm** : WebAssembly without JavaScript support code
+        ("standalone wasm"; this enables "STANDALONE_WASM").
+
 ```
 
 ## Run nginx.wasm on wasmer
