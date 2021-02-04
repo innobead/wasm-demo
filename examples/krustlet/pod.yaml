@@ -7,6 +7,7 @@ spec:
     - name: wasm-demo
       image: dkoacr.azurecr.io/wasm-demo:v0.0.0
       command: []
+  nodeName: demo
   tolerations:
     - key: "kubernetes.io/arch"
       operator: "Equal"

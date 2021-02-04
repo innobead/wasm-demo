@@ -182,6 +182,8 @@ wasmtime wasm-demo.wasm
 
 ## Run the WASI application on the K8s cluster (Krustlet)
 
+[![asciicast](https://asciinema.org/a/388989.svg)](https://asciinema.org/a/388989)
+
 ### 1. Set up a K8s cluster
 
 ```console
@@ -226,6 +228,7 @@ The same as above
 
 ```console
 ./scripts/manage-acr.sh create_acr_access_secret
+kubectl get secret
 ```
 
 ```console
