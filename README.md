@@ -126,7 +126,7 @@ of output. When running `emcc --help`, you will find the info as below.
 
 ```
 
-## Run nginx.wasm on wasmer
+## Run nginx.wasm on Wasmer
 
 By running the below command, you should be able to access http://localhost:8080
 
